@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Список пользователей</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Имя</th>
+                <th>Роль</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user.get_full_name() }}</td>
+                <td>{{ user.role.name if user.role else 'Не указана' }}</td>
+                <td>
+                    {% if current_user.is_authenticated and (current_user.is_admin() or current_user.id == user.id) %}
+                    <a href="{{ url_for('main.user_view', id=user.id) }}" class="btn btn-sm btn-info">Просмотр</a>
+                    {% endif %}
+                    
+                    {% if current_user.is_authenticated and (current_user.is_admin() or current_user.id == user.id) %}
+                    <a href="{{ url_for('main.user_edit', id=user.id) }}" class="btn btn-sm btn-warning">Редактирование</a>
+                    {% endif %}
+                    
+                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                            data-user-id="{{ user.id }}" data-user-name="{{ user.get_full_name() }}">Удаление</button>
+                    {% endif %}
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if current_user.is_authenticated and current_user.is_admin() %}
+<a href="{{ url_for('main.user_create') }}" class="btn btn-primary">Создание пользователя</a>
+{% endif %}
+{% endblock %}

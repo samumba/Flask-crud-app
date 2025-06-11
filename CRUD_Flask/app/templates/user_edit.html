@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from "user_form_macro.html" import user_form %}
+
+{% block title %}Редактирование пользователя{% endblock %}
+
+{% block content %}
+<h1>Редактирование пользователя</h1>
+
+<div class="card">
+    <div class="card-body">
+        {{ user_form(form, url_for('main.user_edit', id=user.id), False) }}
+    </div>
+</div>
+{% endblock %}
