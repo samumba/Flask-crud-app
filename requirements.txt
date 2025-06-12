@@ -1,3 +1,6 @@
-# Actualización forzada para Render
+Flask==2.3.2
+Flask-WTF==1.1.1
+Flask-Login==0.6.3
+Flask-SQLAlchemy==3.1.1
+Werkzeug==2.3.3
 gunicorn
-
